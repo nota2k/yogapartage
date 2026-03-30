@@ -7,9 +7,20 @@ Template: twentytwentyfive
 Version: 1.1.0
 */
 
-/* Défilement fluide (liens d’ancrage, navigation) */
+/* =============================================================================
+	1. Base & défilement
+============================================================================= */
+
 html {
 	scroll-behavior: smooth;
+}
+
+html,
+body {
+	min-height: 100vh;
+	margin: 0;
+	clear: both;
+	position: relative;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -18,39 +29,69 @@ html {
 	}
 }
 
-/*------ Typographie --------*/
+/* =============================================================================
+   2. Typographie & liens
+   ============================================================================= */
 
-/* body{
-	font-family: 'Rosario', sans-serif;
-}
-
-h1{
-	font-family: 'Playfair Display';
+p,
+a {
 	font-weight: 400;
-	font-size: 3em;
 	line-height: 1.5em;
 }
 
-h2{
-	font-family: 'Reenie Beanie';
-	font-weight: 400;
-	font-size: 1.5em;
+a:focus {
+	outline: none !important;
 }
 
-h3{
-	font-family: "Playfair Display";
-	font-weight: 400;
-	font-size: 1.5em;
-} */
-
-/* p {
-	margin-bottom: 1.2rem !important;
-} */
+a:hover {
+	text-decoration: none !important;
+}
 
 .has-text-align-right {
 	text-align: right !important;
 }
 
+.has-drop-cap:not(:focus):first-letter {
+	float: left;
+	font-size: 5.1em;
+	font-weight: normal;
+	margin: 0.1em 0.09em 0 -0.04em;
+	text-transform: uppercase;
+	font-style: normal;
+	font-family: "Playfair Display", Sans-serif;
+}
+
+.entry-date {
+	font-style: italic;
+}
+
+/* Séparateurs (single.php, etc.) */
+.split {
+	display: block;
+	width: 80%;
+	height: 1px;
+	margin: 2em auto;
+	background-color: #249c7c;
+}
+
+.line-top::before {
+	content: "";
+	height: 3px;
+	width: 20%;
+	display: block;
+	background-color: #b8ebdf;
+	position: relative;
+	top: -2em;
+	margin: 0 auto;
+	border-radius: 20px;
+}
+
+span {
+	margin-top: 1.5%;
+	margin-bottom: 1.5%;
+}
+
+/* Utilitaires possibles dans le contenu / blocs HTML */
 .h6-highlight {
 	padding: 1em 0;
 	display: block;
@@ -59,10 +100,30 @@ h3{
 	color: #ffffff;
 	transform: rotate(-1deg);
 	transform-origin: 0 0;
-	background-color: #E4445C;
+	background-color: #e4445c;
 	box-shadow: 4px 5px 5px rgba(0, 0, 0, 0.2);
 	text-align: center;
 }
+
+.vertical-font {
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+}
+
+.vertical-font p {
+	transform: rotate(180deg);
+}
+
+@media (max-width: 767px) {
+	.vertical-font {
+		writing-mode: horizontal-tb;
+		transform: rotate(0deg);
+	}
+}
+
+/* =============================================================================
+	3. Blocs Gutenberg (citations, etc.)
+============================================================================= */
 
 .wp-block-quote {
 	margin-bottom: 5em !important;
@@ -82,93 +143,24 @@ h3{
 	font-size: 6em;
 	position: absolute;
 	opacity: 0.5;
-	color: #67837B;
+	color: #67837b;
 }
 
 .wp-block-quote p::before {
-	content: '“';
+	content: "“";
 	left: -50px;
 	top: 25px;
 }
 
 .wp-block-quote p::after {
-	content: '”';
+	content: "”";
 	right: 10px;
 	bottom: -20px;
 }
 
-p,
-a {
-	font-weight: 400;
-	/*! font-size: 18px  ; */
-	line-height: 1.5em;
-}
-
-a:focus{
-	outline: none!important;
-}
-
-a:hover{
-	text-decoration: none!important;
-}
-
-.has-drop-cap:not(:focus):first-letter {
-	float: left;
-	font-size: 5.1em;
-	font-weight: normal;
-	margin: 0.1em 0.09em 0 -0.04em;
-	text-transform: uppercase;
-	font-style: normal;
-	font-family: "Playfair Display", Sans-serif;
-}
-
-.entry-date {
-	font-style: italic;
-}
-
-.split {
-	display: block;
-	width: 80%;
-	height: 1px;
-	margin: 2em auto;
-	background-color: #249C7C;
-}
-
-.line-top::before {
-	content: '';
-	height: 3px;
-	width: 20%;
-	display: block;
-	background-color: #B8EBDF;
-	position: relative;
-	top: -2em;
-	margin: 0 auto;
-	border-radius: 20px;
-}
-
-span {
-	margin-top: 1.5%;
-	margin-bottom: 1.5%;
-	;
-}
-
-.vertical-font {
-	writing-mode: vertical-rl;
-	transform: rotate(180deg);
-}
-
-.vertical-font p {
-	transform: rotate(180deg);
-}
-
-@media (max-width: 767px) {
-	.vertical-font {
-		writing-mode: horizontal-tb;
-		transform: rotate(0deg);
-	}
-}
-
-/*------ Layout --------*/
+/* =============================================================================
+	4. Layout (pages sans Elementor)
+============================================================================= */
 
 body:not([class*="elementor-page-"]) .site-main {
 	display: flex;
@@ -177,46 +169,30 @@ body:not([class*="elementor-page-"]) .site-main {
 	width: 100%;
 }
 
-html,
-body {
-	min-height: 100vh;
-	margin: 0;
-	clear: both;
-	position: relative;
-}
-
 .flex-shrink-2 {
 	flex-shrink: 2;
 	flex-basis: initial !important;
 }
 
+/* Colonne image recadrée (accueil, etc.) */
 .img-cropped {
-	object-size: 120%;
+	overflow: hidden;
+}
+
+.img-cropped img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
 }
 
 .overflow-x-hidden {
 	overflow-x: hidden;
 }
 
-/*------ Homepage --------*/
-
-.homepage {
-	height: 100vh;
-	width: 100%;
-	display: grid;
-	grid-template-columns: 80px repeat(15, 1fr) 80px;
-	grid-auto-rows: minmax(100px, auto);
-	grid-column-gap: 20px;
-}
-
-.bloc-txt-intro {
-	grid-column: 4 / 9;
-	grid-row: 1;
-}
-
-.image-intro {
-	grid-column: 9 / 17;
-}
+/* =============================================================================
+	5. Décor de fond (template page, parts)
+============================================================================= */
 
 .container-background {
 	position: absolute;
@@ -263,9 +239,9 @@ body {
 	height: 80px;
 }
 
-.tarif-container {
-	gap: 20px;
-}
+/* =============================================================================
+	6. Grille tarifs & pastilles (contenu + Elementor)
+============================================================================= */
 
 .tarif-row .pastille-tarif {
 	position: relative;
@@ -276,71 +252,37 @@ body {
 	width: 100%;
 	max-width: 140px;
 	height: 90px;
+}
 
-	&:before {
-		content: '';
-		position: absolute;
-		margin: 0;
-		background-image: url('img/yogapartage-pastille.png');
-		background-size: contain;
-		background-repeat: no-repeat;
-		background-position: center;
-		width: 100%;
-		height: 100%;
-		z-index: 1;
-		opacity: 0.5;
-	}
+.tarif-row .pastille-tarif::before {
+	content: "";
+	position: absolute;
+	margin: 0;
+	background-image: url("img/yogapartage-pastille.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	opacity: 0.5;
 }
 
 .tarif-row .wp-block-group-is-layout-flex:first-child {
 	justify-content: center;
 }
 
-
-
-@media (max-width: 767px) {
-	.tarif-row {
-		justify-content: center;
-		align-items: center;
-	}	
-
-	.tarif-row>.wp-block-column p {
-		text-align: center;
-	}
-
-	.tarif-row .wp-block-separator {
-		display: none;
-
-	}
-
-	.tarif-row .pastille-tarif {
-		max-width: 160px;
-        height: 150px;
-	}
-
-	.tarif-row .pastille-tarif p{
-		font-size: 2.8em!important;
-	}
-}
-
 .tarif-row p {
 	z-index: 2;
 }
 
-.tarif-row {
-	&:nth-child(2n+1) {
-		.pastille-tarif:before {
-			transform: rotate(25deg);
-		}
-	}
-
-	&:nth-child(2n) figure {
-		transform: scaleX(-1);
-	}
-
+.tarif-row:nth-child(2n + 1) .pastille-tarif::before {
+	transform: rotate(25deg);
 }
 
-
+.tarif-row:nth-child(2n) figure {
+	transform: scaleX(-1);
+}
 
 .title-tarif .elementor-widget-container {
 	min-height: 80px;
@@ -356,6 +298,34 @@ body {
 .container-tarif .elementor-widget-container>p {
 	margin: 0 !important;
 }
+
+@media (max-width: 767px) {
+	.tarif-row {
+		justify-content: center;
+		align-items: center;
+	}
+
+	.tarif-row>.wp-block-column p {
+		text-align: center;
+	}
+
+	.tarif-row .wp-block-separator {
+		display: none;
+	}
+
+	.tarif-row .pastille-tarif {
+		max-width: 160px;
+		height: 150px;
+	}
+
+	.tarif-row .pastille-tarif p {
+		font-size: 2.8em !important;
+	}
+}
+
+/* =============================================================================
+	7. Shortcode [latest-post] (functions.php)
+============================================================================= */
 
 .container-recent-post {
 	display: flex;
@@ -383,33 +353,15 @@ body {
 	width: 100%;
 	height: 100%;
 	padding: 16px;
-	background: #E4FBF5;
+	background: #e4fbf5;
 	text-align: center;
 	max-height: 90px;
 	max-width: 90px;
 }
 
-
-/*.comments-wrapper{
-
-}*/
-
-/*input[type="text"],
-input[type="date"],
-input[type="email"],
-input[type="number"],
-input[type="password"],
-input[type="search"],
-input[type="tel"],
-input[type="url"],
-select,
-textarea {
-	width: 100%;
-	border-radius: 3px;
-	padding: 0.3rem 0.5rem;
-	margin-top: 1rem;
-	transition: all .3s;
-}*/
+/* =============================================================================
+	8. Commentaires
+============================================================================= */
 
 .comment-body {
 	width: 100%;
@@ -430,7 +382,7 @@ textarea {
 
 .comments-area a {
 	font-weight: 600;
-	color: #E4445C;
+	color: #e4445c;
 	text-decoration: none;
 }
 
@@ -467,12 +419,12 @@ textarea {
 .comments-wrapper label {
 	font-size: 2em;
 	display: inline-block;
-	margin-bottom: 0em;
+	margin-bottom: 0;
 	vertical-align: middle;
 }
 
 .comment-form-cookies-consent label {
-	font-family: 'Rosario', sans-serif;
+	font-family: "Rosario", sans-serif;
 	font-size: 0.8em;
 }
 
@@ -487,7 +439,9 @@ textarea {
 	margin-bottom: 0.2em;
 }
 
-/*------ Archive --------*/
+/* =============================================================================
+	9. Archives (template-parts/archive.php)
+============================================================================= */
 
 .post-grid-archive {
 	display: grid;
@@ -533,13 +487,15 @@ textarea {
 	z-index: 10;
 }
 
+/* Filtre excerpt (functions.php) — complète Twenty Twenty Five */
 .more-link {
 	margin-left: 4em;
 	text-align: right;
 }
 
-
-/*------ Images style --------*/
+/* =============================================================================
+	10. Images (classes utilitaires optionnelles)
+============================================================================= */
 
 .border {
 	border: 5px solid white;
@@ -549,9 +505,10 @@ textarea {
 	max-width: 600px;
 }
 
-/*------- Header ------- */
+/* =============================================================================
+	11. En-tête & menu mobile (JS : #site-header, custom-jquery.js)
+============================================================================= */
 
-/* Header fixe : masqué au-delà de 100px si le scroll descend, réaffiché si le scroll remonte */
 .site-header--scroll-behavior {
 	position: fixed;
 	top: 0;
@@ -564,7 +521,6 @@ textarea {
 	will-change: transform;
 	backface-visibility: hidden;
 }
-
 
 .site-header--scroll-behavior.is-header-offscreen {
 	transform: translate3d(0, -100%, 0);
@@ -584,7 +540,7 @@ textarea {
 
 #mysticky-nav.wrapfixed {
 	height: 80px;
-	box-shadow: 0px 3px 9px -3px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 3px 9px -3px rgba(0, 0, 0, 0.2);
 }
 
 .menu-principal-container {
@@ -592,7 +548,7 @@ textarea {
 }
 
 #mysticky-nav.wrapfixed .myfixed .menu-principal-container::before {
-	content: '';
+	content: "";
 	display: block;
 	width: 50px;
 	height: 100%;
@@ -603,10 +559,6 @@ textarea {
 	left: -4em;
 }
 
-/*
- * Menu mobile (bloc Navigation) : panneau sous le header, hauteur au contenu (pas plein écran).
- * Ajuster --yogapartage-mobile-header-offset si la hauteur de la barre d’en-tête change.
- */
 :root {
 	--yogapartage-mobile-header-offset: 4.75rem;
 }
@@ -624,7 +576,6 @@ textarea {
 }
 
 @media (max-width: 599px) {
-
 	.wp-block-navigation__responsive-container.is-menu-open.yogapartage-nav-closing {
 		animation: yogapartage-nav-menu-close 0.28s ease-in forwards !important;
 		pointer-events: none;
@@ -651,68 +602,52 @@ textarea {
 		flex: 0 0 auto;
 		align-items: flex-start;
 		justify-content: flex-start;
-
 	}
 
 	.wp-block-navigation__container {
 		align-items: flex-start !important;
 		justify-content: flex-start !important;
 		gap: 1em !important;
-
-		a {
-			font-size: 1.8em !important;
-			font-weight: 600 !important;
-			text-align: left !important;
-
-			&:focus {
-				outline: none !important;
-			}
-		}
 	}
 
-	/* Barre d’admin WordPress (hauteur ~46px sur petits écrans) */
+	.wp-block-navigation__container a {
+		font-size: 1.8em !important;
+		font-weight: 600 !important;
+		text-align: left !important;
+	}
+
+	.wp-block-navigation__container a:focus {
+		outline: none !important;
+	}
+
 	body.admin-bar .wp-block-navigation__responsive-container.is-menu-open {
-		top: 111px;
-		padding: 20px;
 		top: 90px;
+		padding: 20px;
 		max-height: calc(100vh - var(--wp-admin--admin-bar--height, 46px) - var(--yogapartage-mobile-header-offset) - env(safe-area-inset-bottom, 0px));
 	}
 
-	.is-menu-open .wp-block-navigation-link a{
-		font-size: 1.5em!important;
+	.is-menu-open .wp-block-navigation-link a {
+		font-size: 1.5em !important;
 	}
 
-	.wp-block-navigation__responsive-container-open:focus{
-		outline: none!important;
+	.wp-block-navigation__responsive-container-open:focus {
+		outline: none !important;
 	}
 }
 
-/*------- Footer ------- */
+/* =============================================================================
+	12. Pied de page & Contact Form 7
+============================================================================= */
 
 .site-footer {
 	margin-top: 20vh;
-	background-color: #3A5E54;
+	background-color: #3a5e54;
 }
 
 .site-footer a,
 .copyright p {
 	color: #ffffff !important;
 }
-
-/*.nwa-widget .wp-block-columns{
-	display: flex;
-	flex-direction: row-reverse;
-	margin: 0 auto;
-	max-width: 70%;
-	width: 100%;
-	justify-content: space-between;
-	align-items:center;
-	color: white;
-}
-
-.nwa-widget .wp-block-column{
-	padding: 1em;
-}*/
 
 .split-line {
 	display: block;
@@ -721,8 +656,6 @@ textarea {
 	max-width: 30%;
 	margin: 15px auto;
 }
-
-/*-- Contact -- */
 
 .footer-form {
 	padding: 5em 2em;
@@ -749,13 +682,6 @@ textarea {
 	min-width: 100px;
 	width: 100%;
 	margin-top: 1em;
-}
-
-.cf-block-input:focus {
-	outline: none !important;
-}
-
-.wpcf7-form input[type="submit"] {
 	grid-column: 1 / span 1;
 	grid-row: 3 / span 1;
 	background-color: transparent;
@@ -763,7 +689,6 @@ textarea {
 	color: white;
 	padding: 15px;
 	cursor: pointer;
-	/* font-weight: 600; */
 	font-size: 0.8em;
 	border-radius: 100px;
 	transition: 0.2s ease-in-out all;
@@ -771,11 +696,14 @@ textarea {
 
 .wpcf7-form input[type="submit"]:hover {
 	color: initial;
-	background-color: #B8EBDF;
-	border-color: #B8EBDF;
+	background-color: #b8ebdf;
+	border-color: #b8ebdf;
 }
 
-/*Label+span+input*/
+.cf-block-input:focus {
+	outline: none !important;
+}
+
 .cf-block input {
 	border: none;
 	border-radius: inherit;
@@ -788,7 +716,6 @@ textarea {
 	resize: none;
 	border-radius: inherit;
 	font-family: var(--e-global-typography-text-font-family) !important;
-	/* font-size: var(--e-global-typography-55a2397-font-size) !important; */
 }
 
 .cf-block-input::placeholder {
@@ -803,7 +730,6 @@ textarea {
 	font-family: var(--e-global-typography-text-font-family) !important;
 }
 
-/*Span+input*/
 .wpcf7-form-control-wrap {
 	margin: 0;
 }
@@ -832,10 +758,12 @@ input:focus,
 	margin: 0 !important;
 }
 
-/*------- Entrée au scroll (gauche / droite + fondu) — classe sur le bloc Gutenberg ou la div — */
+/* =============================================================================
+	13. Animations au scroll (custom-jquery.js + classes sur blocs)
+============================================================================= */
+
 .anime-left-fade-in {
 	opacity: 0;
-	/* Départ à gauche → glisse vers la droite jusqu’à la position finale */
 	transform: translate3d(clamp(-8rem, -14vw, -3rem), 0, 0);
 	transition:
 		opacity 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
@@ -850,7 +778,6 @@ input:focus,
 
 .anime-right-fade-in {
 	opacity: 0;
-	/* Départ à droite → glisse vers la gauche jusqu’à la position finale */
 	transform: translate3d(clamp(3rem, 14vw, 8rem), 0, 0);
 	transition:
 		opacity 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
@@ -863,11 +790,19 @@ input:focus,
 	transform: translate3d(0, 0, 0);
 }
 
-/* Bloc sorti par le haut : fade-out quand le haut du bloc dépasse le viewport de 100px (top < -100px) */
-/* .anime-left-fade-in.is-in-view.is-past-viewport,
-.anime-right-fade-in.is-in-view.is-past-viewport {
-	opacity: 0;
-} */
+.cartouche {
+	rotate: -5deg;
+	width: fit-content;
+	margin: 1.5em auto;
+}
+
+.cartouche p {
+	border-radius: 10px;
+	padding: 5px 35px !important;
+	border: 10px solid rgba(0, 0, 0, 0.1);
+	box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
+	width: fit-content;
+}
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -884,27 +819,11 @@ input:focus,
 	}
 }
 
-.cartouche {
-	rotate: -5deg;
-	width: fit-content;
-	margin: 1.5em auto;
-
-
-	p {
-		border-radius: 10px;
-		padding: 5px 35px !important;
-
-		border: 10px solid rgba(0, 0, 0, 0.1);
-		box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
-		width: fit-content;
-	}
-
-}
-
-/*------- Media Queries ------- */
+/* =============================================================================
+	14. Media queries — largeur & responsive
+============================================================================= */
 
 @media (max-width: 767px) {
-
 	.container-recent-post li {
 		overflow: hidden;
 		width: 100%;
@@ -917,7 +836,7 @@ input:focus,
 
 	.container-recent-post li:nth-child(2n) {
 		border-left: none;
-		border-top: 1px solid #CDCDCD;
+		border-top: 1px solid #cdcdcd;
 	}
 
 	.post-container,
