@@ -866,9 +866,20 @@ input:focus,
 	}
 }
 @media screen and (max-width: 768px) {
-	footer > .wp-block-group-is-layout-flex{
+	footer .wp-block-group-is-layout-flex{
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		gap: 0.4em;
+
+		nav{
+			gap: 0;
+		}
+
+		li.has-small-font-size{
+			font-size: 1.3em !important;
+            width: 100%;
+            display: block;
+		}
 	}
 }
