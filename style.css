@@ -865,3 +865,10 @@ input:focus,
 		max-width: 1200px;
 	}
 }
+@media screen and (max-width: 768px) {
+	footer .wp-block-columns{
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+}
