@@ -43,6 +43,11 @@ a:focus {
 	outline: none !important;
 }
 
+:where(.wp-site-blocks *:focus) {
+    outline-width: 0!important;
+    outline-style: none!important;
+}
+
 a:hover {
 	text-decoration: none !important;
 }
