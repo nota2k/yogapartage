@@ -586,7 +586,7 @@ body:not([class*="elementor-page-"]) .site-main {
 		pointer-events: none;
 	}
 
-	.wp-block-navigation__responsive-container.is-menu-open {
+	header .wp-block-navigation__responsive-container.is-menu-open {
 		top: var(--yogapartage-mobile-header-offset);
 		bottom: auto;
 		left: 0;
@@ -602,20 +602,20 @@ body:not([class*="elementor-page-"]) .site-main {
 		box-sizing: border-box;
 	}
 
-	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+	header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
 		padding-top: 0.25rem;
 		flex: 0 0 auto;
 		align-items: flex-start;
 		justify-content: flex-start;
 	}
 
-	.wp-block-navigation__container {
+	header .wp-block-navigation__container {
 		align-items: flex-start !important;
 		justify-content: flex-start !important;
 		gap: 1em !important;
 	}
 
-	.wp-block-navigation__container a {
+	header .wp-block-navigation__container a {
 		font-size: 1.8em !important;
 		font-weight: 600 !important;
 		text-align: left !important;
