@@ -866,7 +866,7 @@ input:focus,
 	}
 }
 @media screen and (max-width: 768px) {
-	footer .wp-block-columns{
+	footer > .wp-block-group-is-layout-flex{
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
