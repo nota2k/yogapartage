@@ -171,4 +171,111 @@ jQuery(function ($) {
   $(".cf-block-input").on("keyup", function () {
     autoGrow(this);
   });
+
+  /* ——— Menu mobile (bloc Navigation) : fermeture animée au clic sur un lien ——— */
+  var NAV_MOBILE_MQ = window.matchMedia("(max-width: 599px)");
+  var NAV_CLOSE_ANIM_MS = 280;
+
+  function yogapartageNavigateFromNavLink(link) {
+    var href = link.getAttribute("href");
+    if (!href || href === "#") {
+      return;
+    }
+    if (link.getAttribute("target") === "_blank") {
+      window.open(href, "_blank");
+      return;
+    }
+    if (href.charAt(0) === "#" && href.length > 1) {
+      var id = decodeURIComponent(href.slice(1));
+      var targetEl = document.getElementById(id);
+      if (!targetEl && window.CSS && typeof CSS.escape === "function") {
+        try {
+          targetEl = document.querySelector('[name="' + CSS.escape(id) + '"]');
+        } catch (err) {
+          targetEl = null;
+        }
+      }
+      if (targetEl) {
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, "", href);
+        }
+        targetEl.scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.location.href = href;
+      }
+      return;
+    }
+    window.location.href = href;
+  }
+
+  function yogapartageCloseMobileNavWithAnimation(link) {
+    var container = link.closest(".wp-block-navigation__responsive-container");
+    if (!container || !container.classList.contains("is-menu-open")) {
+      return false;
+    }
+    var closeBtn = container.querySelector(
+      ".wp-block-navigation__responsive-container-close"
+    );
+    if (!closeBtn) {
+      return false;
+    }
+
+    if (!NAV_MOBILE_MQ.matches) {
+      closeBtn.click();
+      yogapartageNavigateFromNavLink(link);
+      return true;
+    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      closeBtn.click();
+      yogapartageNavigateFromNavLink(link);
+      return true;
+    }
+
+    var done = false;
+    var timeoutId;
+    function finish() {
+      if (done) {
+        return;
+      }
+      done = true;
+      window.clearTimeout(timeoutId);
+      closeBtn.click();
+      container.classList.remove("yogapartage-nav-closing");
+      yogapartageNavigateFromNavLink(link);
+    }
+
+    container.classList.add("yogapartage-nav-closing");
+    timeoutId = window.setTimeout(finish, NAV_CLOSE_ANIM_MS + 80);
+    container.addEventListener(
+      "animationend",
+      function onAnimEnd(ev) {
+        if (ev.target !== container) {
+          return;
+        }
+        container.removeEventListener("animationend", onAnimEnd);
+        finish();
+      }
+    );
+
+    return true;
+  }
+
+  $(document).on(
+    "click",
+    ".wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content a[href]",
+    function (e) {
+      if (!NAV_MOBILE_MQ.matches) {
+        return;
+      }
+      if (e.defaultPrevented) {
+        return;
+      }
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+        return;
+      }
+      if (yogapartageCloseMobileNavWithAnimation(this)) {
+        e.preventDefault();
+      }
+    }
+  );
 });

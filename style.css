@@ -134,6 +134,22 @@ span {
 	;
 }
 
+.vertical-font {
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+}
+
+.vertical-font p {
+	transform: rotate(180deg);
+}
+
+@media (max-width: 767px) {
+	.vertical-font {
+		writing-mode: horizontal-tb;
+		transform: rotate(0deg);
+	}
+}
+
 /*------ Layout --------*/
 
 body:not([class*="elementor-page-"]) .site-main {
@@ -149,6 +165,19 @@ body {
 	margin: 0;
 	clear: both;
 	position: relative;
+}
+
+.flex-shrink-2 {
+	flex-shrink: 2;
+	flex-basis: initial !important;
+}
+
+.img-cropped {
+	object-size: 120%;
+}
+
+.overflow-x-hidden {
+	overflow-x: hidden;
 }
 
 /*------ Homepage --------*/
@@ -216,21 +245,6 @@ body {
 	height: 80px;
 }
 
-/*.container-fh{
-	position: relative;
-	top:80px;
-}
-
-.container-fh .col-contained{
-	display: flex;
-	height:100%;
-}
-
-.container-fh .col-contained > div{
-  height: 100%;	
-	align-items: center;
-}*/
-
 .tarif-container {
 	gap: 20px;
 }
@@ -241,12 +255,53 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	width: 100%;
+	max-width: 140px;
+	height: 90px;
 
-	figure {
+	&:before {
+		content: '';
 		position: absolute;
 		margin: 0;
+		background-image: url('img/yogapartage-pastille.png');
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+		width: 100%;
+		height: 100%;
 		z-index: 1;
 		opacity: 0.5;
+	}
+}
+
+.tarif-row .wp-block-group-is-layout-flex:first-child {
+	justify-content: center;
+}
+
+
+
+@media (max-width: 767px) {
+	.tarif-row {
+		justify-content: center;
+		align-items: center;
+	}	
+
+	.tarif-row>.wp-block-column p {
+		text-align: center;
+	}
+
+	.tarif-row .wp-block-separator {
+		display: none;
+
+	}
+
+	.tarif-row .pastille-tarif {
+		max-width: 160px;
+        height: 150px;
+	}
+
+	.tarif-row .pastille-tarif p{
+		font-size: 2.8em!important;
 	}
 }
 
@@ -256,7 +311,7 @@ body {
 
 .tarif-row {
 	&:nth-child(2n+1) {
-		.pastille-tarif figure {
+		.pastille-tarif:before {
 			transform: rotate(25deg);
 		}
 	}
@@ -264,11 +319,6 @@ body {
 	&:nth-child(2n) figure {
 		transform: scaleX(-1);
 	}
-
-	& img {
-		/* height: 80px; */
-	}
-
 
 }
 
@@ -535,6 +585,90 @@ textarea {
 	left: -4em;
 }
 
+/*
+ * Menu mobile (bloc Navigation) : panneau sous le header, hauteur au contenu (pas plein écran).
+ * Ajuster --yogapartage-mobile-header-offset si la hauteur de la barre d’en-tête change.
+ */
+:root {
+	--yogapartage-mobile-header-offset: 4.75rem;
+}
+
+@keyframes yogapartage-nav-menu-close {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	to {
+		opacity: 0;
+		transform: translateY(0.4em);
+	}
+}
+
+@media (max-width: 599px) {
+
+	.wp-block-navigation__responsive-container.is-menu-open.yogapartage-nav-closing {
+		animation: yogapartage-nav-menu-close 0.28s ease-in forwards !important;
+		pointer-events: none;
+	}
+
+	.wp-block-navigation__responsive-container.is-menu-open {
+		top: var(--yogapartage-mobile-header-offset);
+		bottom: auto;
+		left: 0;
+		right: 0;
+		height: auto;
+		min-height: 0;
+		max-height: calc(100vh - var(--yogapartage-mobile-header-offset) - env(safe-area-inset-bottom, 0px));
+		justify-content: flex-start;
+		align-items: flex-start;
+		overflow-x: hidden;
+		overflow-y: auto;
+		padding: 0.75rem 1rem 1.25rem;
+		box-sizing: border-box;
+	}
+
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+		padding-top: 0.25rem;
+		flex: 0 0 auto;
+		align-items: flex-start;
+		justify-content: flex-start;
+
+	}
+
+	.wp-block-navigation__container {
+		align-items: flex-start !important;
+		justify-content: flex-start !important;
+		gap: 1em !important;
+
+		a {
+			font-size: 1.8em !important;
+			font-weight: 600 !important;
+			text-align: left !important;
+
+			&:focus {
+				outline: none !important;
+			}
+		}
+	}
+
+	/* Barre d’admin WordPress (hauteur ~46px sur petits écrans) */
+	body.admin-bar .wp-block-navigation__responsive-container.is-menu-open {
+		top: 111px;
+		padding: 20px;
+		top: 90px;
+		max-height: calc(100vh - var(--wp-admin--admin-bar--height, 46px) - var(--yogapartage-mobile-header-offset) - env(safe-area-inset-bottom, 0px));
+	}
+
+	.is-menu-open .wp-block-navigation-link a{
+		font-size: 1.5em!important;
+	}
+
+	.wp-block-navigation__responsive-container-open:focus{
+		outline: none!important;
+	}
+}
+
 /*------- Footer ------- */
 
 .site-footer {
@@ -579,7 +713,7 @@ textarea {
 .wpcf7-form {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 2em;
+	gap: 1em;
 }
 
 #cf-block01,
@@ -609,13 +743,18 @@ textarea {
 	background-color: transparent;
 	border: 2px solid white;
 	color: white;
-	padding: 5px;
+	padding: 15px;
+	cursor: pointer;
+	/* font-weight: 600; */
+	font-size: 0.8em;
+	border-radius: 100px;
 	transition: 0.2s ease-in-out all;
 }
 
 .wpcf7-form input[type="submit"]:hover {
-	background-color: #B8EBDF;
 	color: initial;
+	background-color: #B8EBDF;
+	border-color: #B8EBDF;
 }
 
 /*Label+span+input*/
@@ -631,12 +770,18 @@ textarea {
 	resize: none;
 	border-radius: inherit;
 	font-family: var(--e-global-typography-text-font-family) !important;
-	font-size: var(--e-global-typography-55a2397-font-size) !important;
+	/* font-size: var(--e-global-typography-55a2397-font-size) !important; */
+}
+
+.cf-block-input::placeholder {
+	font-weight: 400;
+	font-size: 1.2em;
+	color: rgba(255, 255, 255, 0.5);
 }
 
 .cf-block label {
 	margin-bottom: 0.2em;
-	font-size: 1.2em !important;
+	font-size: 1em !important;
 	font-family: var(--e-global-typography-text-font-family) !important;
 }
 
@@ -647,7 +792,7 @@ textarea {
 
 .cf-block-input {
 	line-height: 1em;
-	padding: 0.4em 0 !important;
+	padding: 1.8em 0 1.5em 0 !important;
 	border: none;
 	color: #0c0d0e;
 	border-bottom: 1px solid white !important;
@@ -701,10 +846,10 @@ input:focus,
 }
 
 /* Bloc sorti par le haut : fade-out quand le haut du bloc dépasse le viewport de 100px (top < -100px) */
-.anime-left-fade-in.is-in-view.is-past-viewport,
+/* .anime-left-fade-in.is-in-view.is-past-viewport,
 .anime-right-fade-in.is-in-view.is-past-viewport {
 	opacity: 0;
-}
+} */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -723,11 +868,17 @@ input:focus,
 
 .cartouche {
 	rotate: -5deg;
+	width: fit-content;
+	margin: 1.5em auto;
+
 
 	p {
 		border-radius: 10px;
+		padding: 5px 35px !important;
+
 		border: 10px solid rgba(0, 0, 0, 0.1);
 		box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
+		width: fit-content;
 	}
 
 }
@@ -755,6 +906,10 @@ input:focus,
 	body:not([class*="elementor-page-"]) .site-main {
 		padding-left: 1em;
 		padding-right: 1em;
+	}
+
+	.wp-block-spacer {
+		display: none;
 	}
 }
 
