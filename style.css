@@ -201,8 +201,8 @@ body {
 
 #forme-03 {
 	opacity: 100%;
-    right: -6em;
-    top: 36%;
+	right: -6em;
+	top: 36%;
 }
 
 .forme-background img {
@@ -234,41 +234,42 @@ body {
 .tarif-container {
 	gap: 20px;
 }
-.tarif-row .pastille-tarif{
+
+.tarif-row .pastille-tarif {
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 
-	figure{
-		position:absolute;
+	figure {
+		position: absolute;
 		margin: 0;
 		z-index: 1;
 		opacity: 0.5;
 	}
 }
 
-.tarif-row p{
+.tarif-row p {
 	z-index: 2;
 }
 
-.tarif-row{
-	&:nth-child(2n+1){
-		.pastille-tarif figure{
+.tarif-row {
+	&:nth-child(2n+1) {
+		.pastille-tarif figure {
 			transform: rotate(25deg);
 		}
 	}
-	
-	&:nth-child(2n) figure{
+
+	&:nth-child(2n) figure {
 		transform: scaleX(-1);
 	}
 
-	& img{
+	& img {
 		/* height: 80px; */
 	}
 
-	
+
 }
 
 
@@ -666,6 +667,69 @@ input:focus,
 	font-style: italic;
 	font-size: 1.2em;
 	margin: 0 !important;
+}
+
+/*------- Entrée au scroll (gauche / droite + fondu) — classe sur le bloc Gutenberg ou la div — */
+.anime-left-fade-in {
+	opacity: 0;
+	/* Départ à gauche → glisse vers la droite jusqu’à la position finale */
+	transform: translate3d(clamp(-8rem, -14vw, -3rem), 0, 0);
+	transition:
+		opacity 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+		transform 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	will-change: opacity, transform;
+}
+
+.anime-left-fade-in.is-in-view {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+
+.anime-right-fade-in {
+	opacity: 0;
+	/* Départ à droite → glisse vers la gauche jusqu’à la position finale */
+	transform: translate3d(clamp(3rem, 14vw, 8rem), 0, 0);
+	transition:
+		opacity 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+		transform 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	will-change: opacity, transform;
+}
+
+.anime-right-fade-in.is-in-view {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+
+/* Bloc sorti par le haut : fade-out quand le haut du bloc dépasse le viewport de 100px (top < -100px) */
+.anime-left-fade-in.is-in-view.is-past-viewport,
+.anime-right-fade-in.is-in-view.is-past-viewport {
+	opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.anime-left-fade-in,
+	.anime-right-fade-in {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	.anime-left-fade-in.is-in-view.is-past-viewport,
+	.anime-right-fade-in.is-in-view.is-past-viewport {
+		opacity: 0;
+	}
+}
+
+.cartouche {
+	rotate: -5deg;
+
+	p {
+		border-radius: 10px;
+		border: 10px solid rgba(0, 0, 0, 0.1);
+		box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
+	}
+
 }
 
 /*------- Media Queries ------- */

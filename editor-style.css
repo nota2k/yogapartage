@@ -1,0 +1,7 @@
+/**
+ * Styles éditeur — Yoga Partage (thème enfant)
+ *
+ * Import du style.css principal pour que l’aperçu des blocs corresponde au front.
+ * Chemin relatif depuis ce fichier : assets/css/ → racine du thème enfant.
+ */
+@import url("../../style.css");

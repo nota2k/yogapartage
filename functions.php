@@ -1,5 +1,15 @@
 <?php
 add_action('wp_enqueue_scripts', 'enqueue_child_theme_styles', PHP_INT_MAX);
+
+if ( ! function_exists( 'my_theme_setup' ) ) :
+    function my_theme_setup()  {
+
+        // Enqueue the style sheet in the editor.
+        add_editor_style( 'style.css' );
+    }
+    add_action( 'after_setup_theme', 'my_theme_setup' );
+endif;
+
 function enqueue_child_theme_styles()
 {
     wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
@@ -7,6 +17,17 @@ function enqueue_child_theme_styles()
 }
 
 function my_theme_scripts()
+{
+    wp_enqueue_script('rellax', get_stylesheet_directory_uri() . '/assets/js/rellax.js', array(), '1.0.0', true);
+    wp_enqueue_script('rellax-min', get_stylesheet_directory_uri() . '/assets/js/rellax.min.js', array(), '1.0.0', true);
+}
+add_action('wp_enqueue_scripts', 'my_theme_scripts');
+
+/**
+ * Animations (scroll, anime-left/right-fade-in) : chargées sur le front ET dans l’iframe de contenu de l’éditeur
+ * via enqueue_block_assets (voir wp-includes/block-editor.php, _wp_get_iframed_editor_assets).
+ */
+function yogapartage_enqueue_animations_script()
 {
     $js_path = get_stylesheet_directory() . '/assets/js/custom-jquery.js';
     wp_enqueue_script(
@@ -16,10 +37,8 @@ function my_theme_scripts()
         file_exists($js_path) ? filemtime($js_path) : wp_get_theme()->get('Version'),
         true
     );
-    wp_enqueue_script('rellax', get_stylesheet_directory_uri() . '/assets/js/rellax.js', array(), '1.0.0', true);
-    wp_enqueue_script('rellax-min', get_stylesheet_directory_uri() . '/assets/js/rellax.min.js', array(), '1.0.0', true);
 }
-add_action('wp_enqueue_scripts', 'my_theme_scripts');
+add_action('enqueue_block_assets', 'yogapartage_enqueue_animations_script');
 
 // Editor color palette.
 function mytheme_setup_theme_supported_features()
@@ -41,6 +60,8 @@ function mytheme_setup_theme_supported_features()
     );
 }
 add_action('after_setup_theme', 'mytheme_setup_theme_supported_features');
+
+
 
 /**
  * Fonctionnalités FSE (éditeur de site, blocs, parties de modèle) pour le thème enfant.
