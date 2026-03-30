@@ -1,0 +1,8 @@
+/**
+ * Éditeur de page : masque le champ titre quand le modèle « page sans titre » est utilisé.
+ * (Classe posée sur body via PHP + JS — voir functions.php.)
+ */
+body.yogapartage-hide-editor-post-title .editor-visual-editor__post-title-wrapper,
+body.yogapartage-hide-editor-post-title .edit-post-visual-editor__post-title-wrapper {
+	display: none !important;
+}

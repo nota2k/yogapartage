@@ -75,6 +75,80 @@ function hello_yogapartage_fse_support()
 }
 add_action('after_setup_theme', 'hello_yogapartage_fse_support', 20);
 
+/**
+ * Indique si le fichier de modèle de page correspond à « page sans titre » (thème bloc).
+ *
+ * @param string $slug Valeur de _wp_page_template / attribut « template » (ex. templates/page-no-title.html).
+ */
+function yogapartage_is_page_no_title_template($slug)
+{
+    return is_string($slug) && $slug !== '' && strpos($slug, 'page-no-title') !== false;
+}
+
+/**
+ * Classe sur body : masquer le titre dans l’éditeur si la page utilise déjà ce modèle au chargement.
+ */
+function yogapartage_admin_body_class_page_no_title($classes)
+{
+    if (! function_exists('get_current_screen')) {
+        return $classes;
+    }
+    $screen = get_current_screen();
+    if (! $screen || 'post' !== $screen->base || 'page' !== $screen->post_type) {
+        return $classes;
+    }
+    global $post;
+    if (! $post) {
+        return $classes;
+    }
+    if (yogapartage_is_page_no_title_template(get_page_template_slug($post))) {
+        $classes .= ' yogapartage-hide-editor-post-title';
+    }
+    return $classes;
+}
+add_filter('admin_body_class', 'yogapartage_admin_body_class_page_no_title');
+
+/**
+ * Script + styles : masquer le champ titre lorsque le modèle « Page sans titre » est choisi (y compris après changement sans rechargement).
+ */
+function yogapartage_enqueue_hide_editor_page_title()
+{
+    if (! is_admin()) {
+        return;
+    }
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if (! $screen || ! $screen->is_block_editor()) {
+        return;
+    }
+    if ('post' !== $screen->base || 'page' !== $screen->post_type) {
+        return;
+    }
+
+    $theme_dir = get_stylesheet_directory();
+    $theme_uri = get_stylesheet_directory_uri();
+    $css_path  = $theme_dir . '/assets/css/editor-hide-page-title.css';
+    $js_path   = $theme_dir . '/assets/js/editor-hide-page-title.js';
+
+    if (file_exists($css_path)) {
+        wp_enqueue_style(
+            'yogapartage-editor-hide-page-title',
+            $theme_uri . '/assets/css/editor-hide-page-title.css',
+            array(),
+            filemtime($css_path)
+        );
+    }
+    if (file_exists($js_path)) {
+        wp_enqueue_script(
+            'yogapartage-editor-hide-page-title',
+            $theme_uri . '/assets/js/editor-hide-page-title.js',
+            array('wp-data', 'wp-dom-ready', 'wp-edit-post'),
+            filemtime($js_path),
+            true
+        );
+    }
+}
+add_action('enqueue_block_editor_assets', 'yogapartage_enqueue_hide_editor_page_title', 20);
+
 function footer_widgets_init()
 {
 
